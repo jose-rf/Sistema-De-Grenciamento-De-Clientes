@@ -1,6 +1,3 @@
-Aqui está uma versão mais simples e direta do README:
-
----
 
 # Sistema de Gestão de Clientes - Clínica de Fisioterapia
 

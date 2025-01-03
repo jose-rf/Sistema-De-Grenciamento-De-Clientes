@@ -9,7 +9,7 @@ import static sistemagerenciamentoclientes.repository.ConexaoMySQL.connection;
 
 public class ClienteRepository implements Crud<Clientes> {
     
-
+    //método inserir
     @Override
     public boolean inserir(Connection connection, Clientes entity) {
         String comando = "INSERT INTO CLIENTES(nome, endereco, email, telefone, historicoMedico, dataNascimento, cpf) " +
@@ -29,33 +29,35 @@ public class ClienteRepository implements Crud<Clientes> {
             return false;
         }
     }
-
+    
+    //método de atualizar com base no cpf
     @Override
     public boolean atualizar(Connection connection, Clientes entity) {
-        String comando = "UPDATE CLIENTES SET nome = ?, endereco = ?, email = ?, telefone = ?, historicoMedico = ?, " +
-                         "dataNascimento = ?, cpf = ? WHERE id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(comando)) {
-            stmt.setString(1, entity.getNome());
-            stmt.setString(2, entity.getEndereco());
-            stmt.setString(3, entity.getEmail());
-            stmt.setString(4, entity.getTelefone());
-            stmt.setString(5, entity.getHistoricoMedico());
-            stmt.setString(6, entity.getDataNascimento());
-            stmt.setString(7, entity.getCpf());
-            stmt.setInt(8, entity.getId());
-            stmt.executeUpdate();
-            return true;
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-            return false;
-        }
+          String comando = "UPDATE CLIENTES SET nome = ?, endereco = ?, email = ?, telefone = ?, historicoMedico = ?, " +
+                     "dataNascimento = ?, cpf = ? WHERE cpf = ?";
+    try (PreparedStatement stmt = connection.prepareStatement(comando)) {
+        stmt.setString(1, entity.getNome());
+        stmt.setString(2, entity.getEndereco());
+        stmt.setString(3, entity.getEmail());
+        stmt.setString(4, entity.getTelefone());
+        stmt.setString(5, entity.getHistoricoMedico());
+        stmt.setString(6, entity.getDataNascimento());
+        stmt.setString(7, entity.getCpf());
+        stmt.setString(8, entity.getCpf());  // Usando o CPF para localizar o cliente
+        stmt.executeUpdate();
+        return true;
+    } catch (SQLException ex) {
+        System.out.println(ex.getMessage());
+        return false;
     }
-
+    }   
+    
+    //método de deletar
     @Override
     public boolean deletar(Connection connection, Clientes entity) {
-        String comando = "DELETE FROM CLIENTES WHERE id = ?";
+            String comando = "DELETE FROM CLIENTES WHERE cpf = ?";
         try (PreparedStatement stmt = connection.prepareStatement(comando)) {
-            stmt.setInt(1, entity.getId());
+            stmt.setString(1, entity.getCpf());  // Usando CPF para excluir o cliente
             stmt.executeUpdate();
             return true;
         } catch (SQLException ex) {
@@ -64,10 +66,10 @@ public class ClienteRepository implements Crud<Clientes> {
         }
     }
 
-    // Alteração para buscar pelo CPF
+    // Selecionar pelo CPF
     @Override
     public Clientes selecionar(String cpf) {
-        String comando = "SELECT * FROM CLIENTES WHERE cpf = ?";  // Alteração: agora busca por CPF
+        String comando = "SELECT * FROM CLIENTES WHERE cpf = ?";
         try (PreparedStatement stmt = connection.prepareStatement(comando)) {
             stmt.setString(1, cpf);  // Usando CPF para consulta
             ResultSet rs = stmt.executeQuery();

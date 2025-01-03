@@ -8,7 +8,6 @@ import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import sistemagerenciamentoclientes.model.Clientes;
-import sistemagerenciamentoclientes.repository.ClienteDAO;
 import sistemagerenciamentoclientes.repository.ClienteRepository;
 
 
@@ -115,7 +114,7 @@ public class PesquisaDeCliente extends javax.swing.JInternalFrame {
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
    // Recupera o CPF inserido no campo de pesquisa
     String cpf = txtPesquisa.getText();
-    System.out.println("CPF inserido: " + cpf);  // Verifique o CPF no console
+    System.out.println("CPF inserido: " + cpf);  // Verifica o CPF no console
 
     if (cpf.isEmpty()) {
         JOptionPane.showMessageDialog(this, "Por favor, insira um CPF para realizar a pesquisa.", 
@@ -128,12 +127,12 @@ public class PesquisaDeCliente extends javax.swing.JInternalFrame {
     Clientes cliente = clienteRepository.selecionar(cpf);  // Método para buscar diretamente no repositório
 
     if (cliente != null) {
-        // Se o cliente for encontrado, exibe o nome do cliente
         
-        // Tenta abrir a tela de pesquisa de clientes
+        // Se o cliente for encontrado, abre a tela de alterar os dados
         try {
             // Cria uma instância da tela de alteração de clientes
             telaAlteracaoClientes = TelaAlteracaoClientes.getInstancia(telaInicial);
+            telaAlteracaoClientes.setCliente(cliente);
 
             // Recupera o JDesktopPane da tela inicial
             JDesktopPane desktopPane = telaInicial.getDesktopPane();  // Método para obter o JDesktopPane de TelaInicial
@@ -144,7 +143,7 @@ public class PesquisaDeCliente extends javax.swing.JInternalFrame {
                 telaAlteracaoClientes.setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
             }
 
-            // Tenta selecionar a tela e trazê-la para o topo
+            // Tenta selecionar a tela
             telaAlteracaoClientes.setSelected(true);
             telaAlteracaoClientes.setVisible(true);
         } catch (Exception ex) {
@@ -161,7 +160,7 @@ public class PesquisaDeCliente extends javax.swing.JInternalFrame {
                                       "Erro", JOptionPane.ERROR_MESSAGE);
     }
     
-    fecharJanela();
+    fecharJanela(); //Após a janela de alteração ser aberta, a de pesquisa é fechada atrás
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed

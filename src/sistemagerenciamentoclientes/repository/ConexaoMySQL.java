@@ -15,7 +15,7 @@ public class ConexaoMySQL {
         this.conexao = conexao;
     }
 
-    // Construtor sem parâmetros, usado quando Conexao não for necessário
+    // Construtor sem parâmetros
     public ConexaoMySQL() {
     }
 

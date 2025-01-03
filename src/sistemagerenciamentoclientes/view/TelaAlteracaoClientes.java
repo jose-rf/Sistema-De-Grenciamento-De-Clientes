@@ -4,6 +4,11 @@
  */
 package sistemagerenciamentoclientes.view;
 
+import javax.swing.JOptionPane;
+import sistemagerenciamentoclientes.model.Clientes;
+import sistemagerenciamentoclientes.repository.ClienteRepository;
+import sistemagerenciamentoclientes.repository.ConexaoMySQL;
+
 /**
  *
  * @author joser
@@ -11,9 +16,12 @@ package sistemagerenciamentoclientes.view;
 public class TelaAlteracaoClientes extends javax.swing.JInternalFrame {
     private static TelaAlteracaoClientes instancia;
      private TelaInicial telaInicial;
+     
 
     /**
      * Creates new form TelaDeAlteraçãoDeClientes
+     * @param telaInicial1
+     * @param cliente
      */
     public TelaAlteracaoClientes(TelaInicial telaInicial1) {
         initComponents();
@@ -37,7 +45,6 @@ public class TelaAlteracaoClientes extends javax.swing.JInternalFrame {
         txtTelefone = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        txtId = new javax.swing.JTextField();
         txtCpf = new javax.swing.JTextField();
         txtHistoricoMedico = new javax.swing.JTextField();
         txtEndereco = new javax.swing.JTextField();
@@ -73,12 +80,6 @@ public class TelaAlteracaoClientes extends javax.swing.JInternalFrame {
         jLabel2.setText("Nome:");
 
         jLabel4.setText("Telefone:");
-
-        txtId.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtIdActionPerformed(evt);
-            }
-        });
 
         jLabel1.setText("ALTERAR CADASTRO");
         jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -119,7 +120,6 @@ public class TelaAlteracaoClientes extends javax.swing.JInternalFrame {
                                 .addComponent(jLabel7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(jLabel3)
@@ -178,9 +178,7 @@ public class TelaAlteracaoClientes extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
                     .addComponent(txtHistoricoMedico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar)
                     .addComponent(btnExcluir)
@@ -193,6 +191,40 @@ public class TelaAlteracaoClientes extends javax.swing.JInternalFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // TODO add your handling code here:
+    // Criando cliente com os dados do formulário
+    Clientes cliente = new Clientes();
+    cliente.setNome(txtNome.getText());
+    cliente.setEmail(txtEmail.getText());
+    cliente.setTelefone(txtTelefone.getText());
+    cliente.setCpf(txtCpf.getText());
+    cliente.setDataNascimento(txtDataNascimento.getText());
+    cliente.setEndereco(txtEndereco.getText());
+    cliente.setHistoricoMedico(txtHistoricoMedico.getText());
+
+    ClienteRepository clienteRepository = new ClienteRepository();
+
+    boolean retornoBanco;
+
+    // Atualização de cliente existente, sem verificar id
+    retornoBanco = clienteRepository.atualizar(ConexaoMySQL.connection, cliente);
+
+    if (retornoBanco) {
+        JOptionPane.showMessageDialog(
+            this,
+            "Cadastro alterado com sucesso!",
+            "Tela de Alteração",
+            JOptionPane.INFORMATION_MESSAGE
+        );
+        limparJanela();
+    } else {
+        JOptionPane.showMessageDialog(
+            this,
+            "Erro ao alterar o cliente.",
+            "Erro",
+            JOptionPane.ERROR_MESSAGE
+        );
+    }
+
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
@@ -200,12 +232,61 @@ public class TelaAlteracaoClientes extends javax.swing.JInternalFrame {
         fecharJanela();
     }//GEN-LAST:event_btnFecharActionPerformed
 
-    private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtIdActionPerformed
-
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         // TODO add your handling code here:
+        if (!txtCpf.getText().isEmpty()) {
+    int resposta = JOptionPane.showConfirmDialog(
+            this,
+            "Deseja realmente excluir esse registro?",
+            "Excluir?",
+            JOptionPane.YES_NO_OPTION
+    );
+    if (resposta == JOptionPane.YES_OPTION) {
+        // Pega o CPF informado na interface
+        String cpf = txtCpf.getText().trim();
+
+        // Verifica se o CPF não está vazio
+        if (!cpf.isEmpty()) {
+            // Cria o objeto Cliente com o CPF
+            Clientes cliente = new Clientes();
+            cliente.setCpf(cpf);  // Define o CPF para exclusão
+
+            ClienteRepository clienteRepository = new ClienteRepository();
+            boolean retornoBanco = clienteRepository.deletar(
+                    ConexaoMySQL.connection,
+                    cliente
+            );
+
+            if (retornoBanco) {
+                limparJanela();  // Limpa os campos
+                txtCpf.setText("");  // Limpa o campo CPF
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Registro excluído com sucesso!",
+                        "Tela de cadastro",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+            } else {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Erro ao excluir o registro.",
+                        "Erro",
+                        JOptionPane.ERROR_MESSAGE
+                );
+            }
+        } else {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Por favor, insira um CPF válido!",
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+}
+
+        
+        
     }//GEN-LAST:event_btnExcluirActionPerformed
     //função de limpar a janlea
        private void limparJanela(){
@@ -229,6 +310,18 @@ public class TelaAlteracaoClientes extends javax.swing.JInternalFrame {
         instancia = new TelaAlteracaoClientes(telaInicial);
     return instancia;
 }
+    public void setCliente(Clientes cliente) {
+    // Preenchimento dos campos da tela de alteração com os dados do cliente
+    txtNome.setText(cliente.getNome());
+    txtEmail.setText(cliente.getEmail());
+    txtTelefone.setText(cliente.getTelefone());
+    txtCpf.setText(cliente.getCpf());
+    txtDataNascimento.setText(cliente.getDataNascimento());
+    txtEndereco.setText(cliente.getEndereco());
+    txtHistoricoMedico.setText(cliente.getHistoricoMedico());
+    
+    
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExcluir;
@@ -247,7 +340,6 @@ public class TelaAlteracaoClientes extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtEndereco;
     private javax.swing.JTextField txtHistoricoMedico;
-    private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtTelefone;
     // End of variables declaration//GEN-END:variables

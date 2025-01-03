@@ -47,6 +47,6 @@ CREATE TABLE CLIENTES (
      - Modifique a URL, usuário e senha de acordo com seu banco de dados.
 
 3. **Executando o Sistema**:
-   - Compile e execute a classe `Main.java`.
+   - Compile e execute a classe `TelaInicial.java`.
    - A interface será aberta, permitindo cadastrar, alterar e excluir clientes.
 

@@ -3,8 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/joser/Desktop/Dev/Projeto%20final%20PROG%201/SistemaGerenciamentoClientes/src/sistemagerenciamentoclientes/repository/ConexaoMySQL.java</file>
-            <file>file:/C:/Users/joser/Desktop/Dev/Projeto%20final%20PROG%201/SistemaGerenciamentoClientes/src/sistemagerenciamentoclientes/view/TelaDeAlteraçãoDeClientes.java</file>
+            <file>file:/C:/Users/joser/Desktop/Dev/Projeto%20final%20PROG%201/SistemaGerenciamentoClientes/src/sistemagerenciamentoclientes/repository/ClienteRepository.java</file>
+            <file>file:/C:/Users/joser/Desktop/Dev/Projeto%20final%20PROG%201/SistemaGerenciamentoClientes/src/sistemagerenciamentoclientes/view/TelaInicial.java</file>
+            <file>file:/C:/Users/joser/Desktop/Dev/Projeto%20final%20PROG%201/SistemaGerenciamentoClientes/src/sistemagerenciamentoclientes/view/TelaAlteracaoClientes.java</file>
             <file>file:/C:/Users/joser/Desktop/Dev/Projeto%20final%20PROG%201/SistemaGerenciamentoClientes/src/sistemagerenciamentoclientes/view/PesquisaDeCliente.java</file>
         </group>
     </open-files>

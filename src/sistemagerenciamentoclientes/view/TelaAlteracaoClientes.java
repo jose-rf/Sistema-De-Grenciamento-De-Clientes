@@ -8,13 +8,16 @@ package sistemagerenciamentoclientes.view;
  *
  * @author joser
  */
-public class TelaDeAlteraçãoDeClientes extends javax.swing.JInternalFrame {
+public class TelaAlteracaoClientes extends javax.swing.JInternalFrame {
+    private static TelaAlteracaoClientes instancia;
+     private TelaInicial telaInicial;
 
     /**
      * Creates new form TelaDeAlteraçãoDeClientes
      */
-    public TelaDeAlteraçãoDeClientes() {
+    public TelaAlteracaoClientes(TelaInicial telaInicial1) {
         initComponents();
+        this.telaInicial = telaInicial; 
     }
 
     /**
@@ -194,6 +197,7 @@ public class TelaDeAlteraçãoDeClientes extends javax.swing.JInternalFrame {
 
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
         // TODO add your handling code here:
+        fecharJanela();
     }//GEN-LAST:event_btnFecharActionPerformed
 
     private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
@@ -203,7 +207,28 @@ public class TelaDeAlteraçãoDeClientes extends javax.swing.JInternalFrame {
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnExcluirActionPerformed
-
+    //função de limpar a janlea
+       private void limparJanela(){
+        txtNome.setText("");
+        txtEmail.setText("");
+        txtEndereco.setText("");
+        txtTelefone.setText("");
+        txtHistoricoMedico.setText("");
+        txtCpf.setText("");
+        txtDataNascimento.setText("");
+        txtNome.requestFocus();
+    }
+    //função para fechar a janela
+    private void fecharJanela(){
+        instancia = null;
+        dispose();
+    }
+    
+    public static TelaAlteracaoClientes getInstancia(TelaInicial telaInicial) {
+    if (instancia == null)
+        instancia = new TelaAlteracaoClientes(telaInicial);
+    return instancia;
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExcluir;

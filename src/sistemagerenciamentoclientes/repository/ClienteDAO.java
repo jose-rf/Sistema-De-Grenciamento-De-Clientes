@@ -5,164 +5,45 @@ import java.sql.*;
 
 public class ClienteDAO {
 
-    // Método para inserir um cliente no banco de dados
-    public boolean inserir(Clientes cliente) {
-        ConexaoMySQL conexaoMySQL = new ConexaoMySQL();  // Cria uma instância da classe ConexaoMySQL
-        Connection connection = conexaoMySQL.conectar();  // Obtém a conexão com o banco
-        PreparedStatement stmt = null;
+    private ConexaoMySQL conexaoMySQL;
 
-        if (connection == null) {
-            System.out.println("Erro: Não foi possível conectar ao banco de dados.");
-            return false;  // Caso não tenha conseguido conectar
-        }
-
-        try {
-            String comando = "INSERT INTO CLIENTES (nome, endereco, email, telefone, historicoMedico, dataNascimento, cpf) " +
-                             "VALUES (?, ?, ?, ?, ?, ?, ?)";
-            stmt = connection.prepareStatement(comando);
-            
-            // Definindo os parâmetros
-            stmt.setString(1, cliente.getNome());
-            stmt.setString(2, cliente.getEndereco());
-            stmt.setString(3, cliente.getEmail());
-            stmt.setString(4, cliente.getTelefone());
-            stmt.setString(5, cliente.getHistoricoMedico());
-            stmt.setString(6, cliente.getDataNascimento());
-            stmt.setString(7, cliente.getCpf());
-            
-            // Executando a inserção
-            stmt.executeUpdate();
-            return true;  // Inserção bem-sucedida
-        } catch (SQLException ex) {
-            System.out.println("Erro ao inserir cliente: " + ex.getMessage());
-            return false;
-        } finally {
-            try {
-                // Fechando a PreparedStatement
-                if (stmt != null) {
-                    stmt.close();
-                }
-            } catch (SQLException e) {
-                System.out.println("Erro ao fechar PreparedStatement: " + e.getMessage());
-            }
-        }
+    public ClienteDAO() {
+        this.conexaoMySQL = new ConexaoMySQL(); // Inicializa a conexão com o banco de dados
     }
 
-    // Método para buscar um cliente por CPF
-    public Clientes buscarPorCpf(String cpf) {
-        ConexaoMySQL conexaoMySQL = new ConexaoMySQL();  // Cria uma instância da classe ConexaoMySQL
-        Connection connection = conexaoMySQL.conectar();  // Obtém a conexão com o banco
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        Clientes cliente = null;
+    // Alteração para buscar o cliente pelo CPF
+ public Clientes buscarPorCpfNoBanco(String cpf) {
+    Connection conn = conexaoMySQL.conectar(); // Obtém a conexão com o banco de dados
 
-        if (connection == null) {
-            System.out.println("Erro: Não foi possível conectar ao banco de dados.");
-            return null;  // Caso não tenha conseguido conectar
-        }
+   
+        System.out.println("CPF inserido: " + cpf);
+        String sql = "SELECT * FROM CLIENTES WHERE cpf = ?"; // Consulta SQL para buscar cliente pelo CPF
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, cpf); // Atribui o CPF à consulta
 
-        try {
-            String comando = "SELECT * FROM CLIENTES WHERE cpf = ?";
-            stmt = connection.prepareStatement(comando);
-            stmt.setString(1, cpf);
-            
-            rs = stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery(); // Executa a consulta
+
             if (rs.next()) {
-                cliente = new Clientes();
+                // Cria e retorna o objeto Clientes com os dados retornados do banco
+                Clientes cliente = new Clientes();
+                cliente.setCpf(rs.getString("cpf"));
                 cliente.setNome(rs.getString("nome"));
                 cliente.setEndereco(rs.getString("endereco"));
-                cliente.setEmail(rs.getString("email"));
                 cliente.setTelefone(rs.getString("telefone"));
-                cliente.setHistoricoMedico(rs.getString("historicoMedico"));
-                cliente.setDataNascimento(rs.getString("dataNascimento"));
-                cliente.setCpf(rs.getString("cpf"));
+                return cliente;
+            } else {
+                // Retorna null se o CPF não for encontrado no banco
+                return null;
             }
         } catch (SQLException ex) {
-            System.out.println("Erro ao buscar cliente: " + ex.getMessage());
+            ex.printStackTrace(); // Em caso de erro, imprime o stack trace
         } finally {
-            try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-            } catch (SQLException e) {
-                System.out.println("Erro ao fechar recursos: " + e.getMessage());
-            }
+            ConexaoMySQL.fecharConexao(); // Fechar a conexão após o uso
         }
-        return cliente;
-    }
+    
+    
+    // Se a conexão com o banco de dados falhar, retorna null
+    return null;
+}
 
-    // Método para atualizar os dados de um cliente
-    public boolean atualizar(Clientes cliente) {
-        ConexaoMySQL conexaoMySQL = new ConexaoMySQL();  // Cria uma instância da classe ConexaoMySQL
-        Connection connection = conexaoMySQL.conectar();  // Obtém a conexão com o banco
-        PreparedStatement stmt = null;
-
-        if (connection == null) {
-            System.out.println("Erro: Não foi possível conectar ao banco de dados.");
-            return false;  // Caso não tenha conseguido conectar
-        }
-
-        try {
-            String comando = "UPDATE CLIENTES SET nome = ?, endereco = ?, email = ?, telefone = ?, historicoMedico = ?, dataNascimento = ? WHERE cpf = ?";
-            stmt = connection.prepareStatement(comando);
-            
-            // Definindo os parâmetros
-            stmt.setString(1, cliente.getNome());
-            stmt.setString(2, cliente.getEndereco());
-            stmt.setString(3, cliente.getEmail());
-            stmt.setString(4, cliente.getTelefone());
-            stmt.setString(5, cliente.getHistoricoMedico());
-            stmt.setString(6, cliente.getDataNascimento());
-            stmt.setString(7, cliente.getCpf());
-            
-            // Executando a atualização
-            stmt.executeUpdate();
-            return true;  // Atualização bem-sucedida
-        } catch (SQLException ex) {
-            System.out.println("Erro ao atualizar cliente: " + ex.getMessage());
-            return false;
-        } finally {
-            try {
-                // Fechando a PreparedStatement
-                if (stmt != null) {
-                    stmt.close();
-                }
-            } catch (SQLException e) {
-                System.out.println("Erro ao fechar PreparedStatement: " + e.getMessage());
-            }
-        }
-    }
-
-    // Método para excluir um cliente pelo CPF
-    public boolean excluir(String cpf) {
-        ConexaoMySQL conexaoMySQL = new ConexaoMySQL();  // Cria uma instância da classe ConexaoMySQL
-        Connection connection = conexaoMySQL.conectar();  // Obtém a conexão com o banco
-        PreparedStatement stmt = null;
-
-        if (connection == null) {
-            System.out.println("Erro: Não foi possível conectar ao banco de dados.");
-            return false;  // Caso não tenha conseguido conectar
-        }
-
-        try {
-            String comando = "DELETE FROM CLIENTES WHERE cpf = ?";
-            stmt = connection.prepareStatement(comando);
-            stmt.setString(1, cpf);
-            
-            // Executando a exclusão
-            stmt.executeUpdate();
-            return true;  // Exclusão bem-sucedida
-        } catch (SQLException ex) {
-            System.out.println("Erro ao excluir cliente: " + ex.getMessage());
-            return false;
-        } finally {
-            try {
-                // Fechando a PreparedStatement
-                if (stmt != null) {
-                    stmt.close();
-                }
-            } catch (SQLException e) {
-                System.out.println("Erro ao fechar PreparedStatement: " + e.getMessage());
-            }
-        }
-    }
 }

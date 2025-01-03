@@ -1,23 +1,25 @@
 package sistemagerenciamentoclientes.repository;
 
-import javax.swing.JOptionPane;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 public class ConexaoMySQL {
-    private Conexao conexao;
+    private Conexao conexao; // Classe de configuração para banco de dados
 
-    public static Connection connection = null;
+    public static Connection connection = null; // Conexão pública
 
+    // Construtor que recebe uma instância de Conexao
     public ConexaoMySQL(Conexao conexao) {
         this.conexao = conexao;
     }
 
+    // Construtor sem parâmetros, usado quando Conexao não for necessário
     public ConexaoMySQL() {
     }
 
-    // Conexão com o MySQL - Agora retorna a Connection diretamente
+    // Método para conectar ao banco de dados
     public Connection conectar() {
         if (conexao != null) {
             try {
@@ -46,6 +48,17 @@ public class ConexaoMySQL {
             }
         } else {
             return null;
+        }
+    }
+
+    // Método para fechar a conexão com o banco de dados
+    public static void fecharConexao() {
+        try {
+            if (connection != null && !connection.isClosed()) {
+                connection.close(); // Fecha a conexão
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

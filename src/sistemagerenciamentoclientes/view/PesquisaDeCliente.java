@@ -3,6 +3,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
  */
 package sistemagerenciamentoclientes.view;
+import com.sun.jdi.connect.spi.Connection;
+import javax.swing.JDesktopPane;
+import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
+import sistemagerenciamentoclientes.model.Clientes;
+import sistemagerenciamentoclientes.repository.ClienteDAO;
+import sistemagerenciamentoclientes.repository.ClienteRepository;
+
+
 
 
 /**
@@ -11,12 +20,15 @@ package sistemagerenciamentoclientes.view;
  */
 public class PesquisaDeCliente extends javax.swing.JInternalFrame {
     private static PesquisaDeCliente instancia;
+    private TelaAlteracaoClientes telaAlteracaoClientes;
+    private TelaInicial telaInicial;
 
     /**
      * Creates new form PesquisaDeCliente
      */
     public PesquisaDeCliente(TelaInicial telaInicial) {
         initComponents();
+        this.telaInicial = telaInicial; 
     }
 
     /**
@@ -101,7 +113,55 @@ public class PesquisaDeCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtPesquisaActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        // TODO add your handling code here:
+   // Recupera o CPF inserido no campo de pesquisa
+    String cpf = txtPesquisa.getText();
+    System.out.println("CPF inserido: " + cpf);  // Verifique o CPF no console
+
+    if (cpf.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor, insira um CPF para realizar a pesquisa.", 
+                                      "Aviso", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    // Cria uma instância do ClientesRepository para realizar a consulta
+    ClienteRepository clienteRepository = new ClienteRepository();
+    Clientes cliente = clienteRepository.selecionar(cpf);  // Método para buscar diretamente no repositório
+
+    if (cliente != null) {
+        // Se o cliente for encontrado, exibe o nome do cliente
+        
+        // Tenta abrir a tela de pesquisa de clientes
+        try {
+            // Cria uma instância da tela de alteração de clientes
+            telaAlteracaoClientes = TelaAlteracaoClientes.getInstancia(telaInicial);
+
+            // Recupera o JDesktopPane da tela inicial
+            JDesktopPane desktopPane = telaInicial.getDesktopPane();  // Método para obter o JDesktopPane de TelaInicial
+
+            // Verifica se a tela já está adicionada ao JDesktopPane
+            if (!desktopPane.isAncestorOf(telaAlteracaoClientes)) {
+                desktopPane.add(telaAlteracaoClientes);  // Adiciona a tela diretamente
+                telaAlteracaoClientes.setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
+            }
+
+            // Tenta selecionar a tela e trazê-la para o topo
+            telaAlteracaoClientes.setSelected(true);
+            telaAlteracaoClientes.setVisible(true);
+        } catch (Exception ex) {
+            // Em caso de erro, mostra uma mensagem de erro
+            JOptionPane.showMessageDialog(null, 
+                    "Erro ao abrir a tela de alteração de clientes: " + ex.getMessage(),
+                    "Pesquisa de clientes",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+        
+    } else {
+        // Se não encontrar o cliente, exibe uma mensagem de erro
+        JOptionPane.showMessageDialog(this, "Cliente não encontrado com o CPF: " + cpf, 
+                                      "Erro", JOptionPane.ERROR_MESSAGE);
+    }
+    
+    fecharJanela();
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed

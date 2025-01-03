@@ -5,18 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import sistemagerenciamentoclientes.model.Clientes;
+import static sistemagerenciamentoclientes.repository.ConexaoMySQL.connection;
 
-/**
- *
- * @author joser
- */
 public class ClienteRepository implements Crud<Clientes> {
+    
 
     @Override
-    
-    //conexão com o banco de dados
-    
-    //método de inserir
     public boolean inserir(Connection connection, Clientes entity) {
         String comando = "INSERT INTO CLIENTES(nome, endereco, email, telefone, historicoMedico, dataNascimento, cpf) " +
                          "VALUES(?, ?, ?, ?, ?, ?, ?)";
@@ -37,8 +31,6 @@ public class ClienteRepository implements Crud<Clientes> {
     }
 
     @Override
-    
-    //método de atualizar
     public boolean atualizar(Connection connection, Clientes entity) {
         String comando = "UPDATE CLIENTES SET nome = ?, endereco = ?, email = ?, telefone = ?, historicoMedico = ?, " +
                          "dataNascimento = ?, cpf = ? WHERE id = ?";
@@ -60,8 +52,6 @@ public class ClienteRepository implements Crud<Clientes> {
     }
 
     @Override
-    
-    //método de deletar
     public boolean deletar(Connection connection, Clientes entity) {
         String comando = "DELETE FROM CLIENTES WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(comando)) {
@@ -74,13 +64,12 @@ public class ClienteRepository implements Crud<Clientes> {
         }
     }
 
+    // Alteração para buscar pelo CPF
     @Override
-    
-    //método de selecionar
-    public Clientes selecionar(Connection connection, String operador, int id) {
-        String comando = "SELECT * FROM CLIENTES WHERE id = ?";
+    public Clientes selecionar(String cpf) {
+        String comando = "SELECT * FROM CLIENTES WHERE cpf = ?";  // Alteração: agora busca por CPF
         try (PreparedStatement stmt = connection.prepareStatement(comando)) {
-            stmt.setInt(1, id);
+            stmt.setString(1, cpf);  // Usando CPF para consulta
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 Clientes cliente = new Clientes();
@@ -97,6 +86,6 @@ public class ClienteRepository implements Crud<Clientes> {
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        return null;
+        return null;  // Retorna null caso não encontre o CPF
     }
 }

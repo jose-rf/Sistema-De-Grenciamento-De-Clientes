@@ -4,6 +4,7 @@
  */
 package sistemagerenciamentoclientes.view;
 
+import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import sistemagerenciamentoclientes.repository.Conexao;
@@ -92,7 +93,7 @@ public class TelaInicial extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("    CLÍNICA DE FISIOTERAPIA");
+        jLabel1.setText("CLÍNICA DE FISIOTERAPIA");
         jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(6, 3, 2)));
 
         jLabel2.setText("Sistema de Cadastramento de Clientes");
@@ -110,7 +111,7 @@ public class TelaInicial extends javax.swing.JFrame {
             .addGroup(desktopPaneLayout.createSequentialGroup()
                 .addGap(132, 132, 132)
                 .addGroup(desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
                     .addComponent(jLabel2)
                     .addComponent(jButton1)
                     .addComponent(jButton2)
@@ -121,16 +122,16 @@ public class TelaInicial extends javax.swing.JFrame {
             desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(desktopPaneLayout.createSequentialGroup()
                 .addGap(33, 33, 33)
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(26, 26, 26)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
                 .addComponent(jLabel2)
-                .addGap(102, 102, 102)
+                .addGap(56, 56, 56)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton2)
                 .addGap(18, 18, 18)
                 .addComponent(btnFechar)
-                .addGap(78, 78, 78))
+                .addGap(124, 124, 124))
         );
 
         jMenu2.setText("Ajuda");
@@ -239,6 +240,10 @@ public class TelaInicial extends javax.swing.JFrame {
             }
         });
     }
+    
+    public JDesktopPane getDesktopPane() {
+    return this.desktopPane;  // Certifique-se de que o desktopPane esteja acessível
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFechar;

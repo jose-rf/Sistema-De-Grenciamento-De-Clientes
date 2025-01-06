@@ -52,7 +52,7 @@ public class ClienteRepository implements Crud<Clientes> {
     }
     }   
     
-    //método de deletar
+    //método de deletar com base no cpf
     @Override
     public boolean deletar(Connection connection, Clientes entity) {
             String comando = "DELETE FROM CLIENTES WHERE cpf = ?";

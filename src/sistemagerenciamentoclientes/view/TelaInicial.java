@@ -242,7 +242,7 @@ public class TelaInicial extends javax.swing.JFrame {
     }
     
     public JDesktopPane getDesktopPane() {
-    return this.desktopPane;  // Certifique-se de que o desktopPane esteja acessível
+    return this.desktopPane; 
 }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

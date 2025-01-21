@@ -45,7 +45,11 @@ public class PesquisaDeCliente extends javax.swing.JInternalFrame {
         btnFechar = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
 
+        setBackground(new java.awt.Color(255, 255, 255));
+        setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         setTitle("Alteração de Cadastro");
+        setDoubleBuffered(true);
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons8-fisioterapia-16.png"))); // NOI18N
         setVisible(true);
 
         jLabel1.setText("Para alterar os dados de um usuário, insira o CPF para realizar a busca:");
@@ -88,7 +92,7 @@ public class PesquisaDeCliente extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(168, 168, 168)
                         .addComponent(btnFechar)))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

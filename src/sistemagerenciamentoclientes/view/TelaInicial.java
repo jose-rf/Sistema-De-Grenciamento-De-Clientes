@@ -49,12 +49,15 @@ public class TelaInicial extends javax.swing.JFrame {
     private void initComponents() {
 
         jDesktopPane1 = new javax.swing.JDesktopPane();
+        jMenuItem1 = new javax.swing.JMenuItem();
         desktopPane = new javax.swing.JDesktopPane();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         btnFechar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
 
@@ -69,8 +72,16 @@ public class TelaInicial extends javax.swing.JFrame {
             .addGap(0, 339, Short.MAX_VALUE)
         );
 
+        jMenuItem1.setText("jMenuItem1");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SISTEMA DE CADASTRO DE CLIENTE");
+        setBackground(new java.awt.Color(255, 255, 255));
+        setIconImages(null);
+        setUndecorated(true);
+
+        desktopPane.setBackground(new java.awt.Color(255, 255, 255));
+        desktopPane.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jButton1.setText("Criar Cadastro");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -93,16 +104,22 @@ public class TelaInicial extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("CLÍNICA DE FISIOTERAPIA");
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel1.setText("    CLÍNICA DE FISIOTERAPIA");
         jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(6, 3, 2)));
+        jLabel1.setPreferredSize(new java.awt.Dimension(140, 18));
 
         jLabel2.setText("Sistema de Cadastramento de Clientes");
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons8-fisioterapia-96 (1).png"))); // NOI18N
 
         desktopPane.setLayer(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         desktopPane.setLayer(jButton2, javax.swing.JLayeredPane.DEFAULT_LAYER);
         desktopPane.setLayer(btnFechar, javax.swing.JLayeredPane.DEFAULT_LAYER);
         desktopPane.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         desktopPane.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        desktopPane.setLayer(jLabel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        desktopPane.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout desktopPaneLayout = new javax.swing.GroupLayout(desktopPane);
         desktopPane.setLayout(desktopPaneLayout);
@@ -111,28 +128,40 @@ public class TelaInicial extends javax.swing.JFrame {
             .addGroup(desktopPaneLayout.createSequentialGroup()
                 .addGap(132, 132, 132)
                 .addGroup(desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel1)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(jButton1)
                     .addComponent(jButton2)
-                    .addComponent(btnFechar))
-                .addGap(133, 133, 133))
+                    .addComponent(btnFechar)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4))
+                .addGap(112, 112, 112))
         );
         desktopPaneLayout.setVerticalGroup(
             desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(desktopPaneLayout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addGap(56, 56, 56)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2)
                 .addGap(18, 18, 18)
-                .addComponent(btnFechar)
-                .addGap(124, 124, 124))
+                .addComponent(jLabel4)
+                .addGroup(desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(desktopPaneLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel3)
+                        .addGap(210, 210, 210))
+                    .addGroup(desktopPaneLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel2)
+                        .addGap(35, 35, 35)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton2)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnFechar)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
+
+        jMenuBar1.setBorder(null);
 
         jMenu2.setText("Ajuda");
         jMenuBar1.add(jMenu2);
@@ -253,7 +282,10 @@ public class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     // End of variables declaration//GEN-END:variables
 }
